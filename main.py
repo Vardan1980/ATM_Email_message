@@ -4,7 +4,7 @@ attempts = 0
 cash_in = 0
 cash_out = 0
 def your_balance():
-    print(f'Your balance is {users_database[1]} $')
+    return users_database[1]
 def add_cash_in(sum):
     global cash_in
     cash_in += sum
@@ -15,8 +15,7 @@ def cashin():
     sum = int(input('Enter cash in sum =>>>'))
     if sum > 0:
         users_database[1] += sum
-        print(f'Your balance increased {sum} $')
-        your_balance()
+        print(f'Your balance increased {sum} $, Your balance =>> {your_balance()} $')
         add_cash_in(sum)
         text = 'cash in'
         email(sum, text)
@@ -27,8 +26,7 @@ def cashout():
     sum = int(input('Enter cash out sum =>>>'))
     if sum < users_database[1]:
         users_database[1] -= sum
-        print(f'Your balance decreased {sum} $')
-        your_balance()
+        print(f'Your balance decreased {sum} $, Your balance =>> {your_balance()} $')
         add_cash_out(sum)
         text='cash out'
         email(sum,text)
@@ -39,7 +37,7 @@ def email(sum,text):
     yag = yagmail.SMTP('davit.manukyan.d@tumo.org', 'phppython404')
     yag.send(to='vardankhalapyan@gmail.com',
              subject='Message your e-wallet',
-             contents=f'{text}, {sum} $, Your balance =>>{users_database[1]} $')
+             contents=f'{text}, {sum} $, Your balance =>>{your_balance()} $')
     yag.close()
 def exit():
     print('E X I T')
@@ -59,7 +57,7 @@ while (True):
         while (True):
             command = input('Enter your command =>>>')
             if command == 'b':
-                your_balance()
+                print(your_balance())
             elif command == '+':
                 cashin()
             elif command == '-':
@@ -67,7 +65,7 @@ while (True):
             elif command == 'h':
                 print(f'Today your balance increased {cash_in} $')
                 print(f'Today your balance decreased {cash_out} $')
-                your_balance()
+                print(your_balance())
             elif command == 'e':
                 exit()
                 attempts=3
